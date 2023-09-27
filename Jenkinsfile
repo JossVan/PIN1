@@ -6,14 +6,14 @@ pipeline {
   }
 
   environment {
-    USERNAME = credentials('username_nexus')
-    PASSWORD = credentials('password_nexus')
+    username_nexus = credentials('username_nexus')
+    password_nexus = credentials('password_nexus')
   }
    stages {
    stage('Building image') {
       steps{
           sh '''
-          docker login 127.0.0.1:8082 -u ${USERNAME} -p ${PASSWORD} 
+          docker login 127.0.0.1:8082 -u ${username_nexus} -p ${password_nexus} 
           docker build -t testapp .
              '''  
         }
