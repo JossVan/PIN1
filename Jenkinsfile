@@ -6,12 +6,14 @@ pipeline {
   }
 
   environment {
-    ARTIFACT_ID = "elbuo8/webapp:${env.BUILD_NUMBER}"
+    USERNAME = env.username_nexus,
+    PASSWORD = env.password_nexus
   }
    stages {
    stage('Building image') {
       steps{
           sh '''
+          docker login 127.0.0.1:8082 -u ${USERNAME} -p ${PASSWORD} 
           docker build -t testapp .
              '''  
         }
