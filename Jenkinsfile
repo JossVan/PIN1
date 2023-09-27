@@ -11,7 +11,7 @@ pipeline {
       }
       steps {
               sh '''
-                docker login 127.0.0.1:8083 --username $NEXUS_CREDENTIALS_USR --password-stdin $NEXUS_CREDENTIALS_PSW
+                echo "$NEXUS_CREDENTIALS_PSW" | docker login -u "$NEXUS_CREDENTIALS_USR" --password-stdin 127.0.0.1:8083
                 docker build -t testapp .
                 '''
         }
