@@ -6,12 +6,10 @@ pipeline {
   }
 
   environment {
-    USERNAME = env.username_nexus
-  },
-  environment {
-    PASSWORD = env.password_nexus
+    USERNAME = credentials('username_nexus')
+    PASSWORD = credentials('password_nexus')
   }
-  stages {
+   stages {
    stage('Building image') {
       steps{
           sh '''
@@ -35,7 +33,7 @@ pipeline {
         '''
         }
       }
-  }
+    }
 }
 
 
