@@ -11,7 +11,7 @@ pipeline {
    stage('Building image') {
       steps {
               sh """
-                docker login 127.0.0.1:8082 -u ${NEXUS_CREDENTIALS.username} -p ${NEXUS_CREDENTIALS.password}
+                docker login 127.0.0.1:8082 -u ${NEXUS_CREDENTIALS} -p ${NEXUS_CREDENTIALS}
                 docker build -t testapp .
                 """
         }
