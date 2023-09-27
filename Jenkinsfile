@@ -4,17 +4,28 @@ pipeline {
   options {
     timeout(time: 2, unit: 'MINUTES')
   }
-
-  environment {
-    NEXUS_CREDENTIALS = credentials('nexus_credentials')
-  }
    stages {
    stage('Building image') {
       steps{
-          sh '''
-          docker login 127.0.0.1:8082 -u ${NEXUS_CREDENTIALS.username} -p ${NEXUS_CREDENTIALS.password} 
-          docker build -t testapp .
-             '''  
+          script {
+                // Obtener las credenciales
+                def nexusCredentials = credentials('nexus_credentials')
+
+                // Verificar si las credenciales son de tipo UsernamePasswordBinding
+                if (nexusCredentials instanceof UsernamePasswordBinding) {
+                    // Acceder al nombre de usuario y contraseña
+                    def dockerUsername = nexusCredentials.username
+                    def dockerPassword = nexusCredentials.password
+
+                    // Ejecutar los comandos Docker
+                    sh """
+                    docker login 127.0.0.1:8082 -u ${dockerUsername} -p ${dockerPassword}
+                    docker build -t testapp .
+                    """
+                } else {
+                    error("La credencial no es de tipo UsernamePasswordBinding")
+                }
+            }
         }
     }
   
